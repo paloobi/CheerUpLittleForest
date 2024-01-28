@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             List<Collider2D> interactionTargets = new();
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        body.velocity = new Vector2(horizontal * speed, vertical * speed);
+        Vector2 direction = new Vector2(horizontal, vertical).normalized;
+        body.velocity = direction * speed;
     }
 }
