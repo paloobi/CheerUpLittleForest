@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D body;
+    public CircleCollider2D interactionRing;
+    public ContactFilter2D interactable;
 
     float horizontal;
     float vertical;
@@ -22,6 +24,19 @@ public class PlayerController : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            List<Collider2D> interactionTargets = new();
+            interactionRing.OverlapCollider(interactable, interactionTargets);
+            foreach (Collider2D target in interactionTargets)
+            {
+                CritterScript critter = target.GetComponent<CritterScript>();
+                if (critter != null)
+                {
+                    critter.IsHappy = true;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
